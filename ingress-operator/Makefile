@@ -42,8 +42,8 @@ IMAGE_SUFFIX ?= $(strip )
 REGISTRY ?= ghcr.io/tensorchord
 
 # Container registry for base images.
-BASE_REGISTRY ?= docker.io
-BASE_REGISTRY_USER ?= modelzai
+BASE_REGISTRY ?= harbor.agi.info
+BASE_REGISTRY_USER ?= agi
 
 # Disable CGO by default.
 CGO_ENABLED ?= 0
@@ -164,8 +164,8 @@ vet: ## Run go vet against code.
 	go vet ./...
 
 build-image: build-local
-	docker build -t ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/ingress-operator:dev -f Dockerfile ./bin
-	docker push ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/ingress-operator:dev
+	docker build -t ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/ingress-operator:$(VERSION) -f Dockerfile ./bin
+	docker push ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/ingress-operator:$(VERSION)
 
 release:
 	@if [ ! -f ".release-env" ]; then \

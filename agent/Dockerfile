@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM harbor.agi.info/library/ubuntu:22.04
 
 LABEL maintainer="modelz-support@tensorchord.ai"
 RUN apt-get -qq update \

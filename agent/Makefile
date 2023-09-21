@@ -42,8 +42,8 @@ IMAGE_SUFFIX ?= $(strip )
 REGISTRY ?= ghcr.io/tensorchord
 
 # Container registry for base images.
-BASE_REGISTRY ?= docker.io
-BASE_REGISTRY_USER ?= modelzai
+BASE_REGISTRY ?= harbor.agi.info
+BASE_REGISTRY_USER ?= agi
 
 # Disable CGO by default.
 CGO_ENABLED ?= 0
@@ -175,8 +175,8 @@ swag: swag-install
 	swag init -g ./cmd/agent/main.go --parseDependency --output ./pkg/docs 
 
 build-image: build-local
-	docker build -t ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/modelz-agent:dev -f Dockerfile ./bin
-	docker push ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/modelz-agent:dev
+	docker build -t ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/modelz-agent:$(VERSION) -f Dockerfile ./bin
+	docker push ${BASE_REGISTRY}/${BASE_REGISTRY_USER}/modelz-agent:$(VERSION)
 
 release:
 	@if [ ! -f ".release-env" ]; then \
