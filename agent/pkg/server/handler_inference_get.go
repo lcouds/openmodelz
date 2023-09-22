@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	_ "github.com/tensorchord/openmodelz/agent/api/types"
+	"github.com/tensorchord/openmodelz/agent/api/types"
 )
 
 // @Summary     Get the inference by name.
@@ -35,6 +35,11 @@ func (s *Server) handleInferenceGet(c *gin.Context) error {
 		return errFromErrDefs(err, "inference-get")
 	}
 
-	c.JSON(http.StatusOK, function)
+	// Add invocation count metrics into the body.
+	var inferences []types.InferenceDeployment
+	inferences = append(inferences, *function)
+	s.prometheusClient.AddMetrics(inferences)
+
+	c.JSON(http.StatusOK, inferences[0])
 	return nil
 }
