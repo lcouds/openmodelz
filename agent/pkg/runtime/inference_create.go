@@ -153,6 +153,7 @@ func makeInference(request types.InferenceDeployment) (*v2alpha1.Inference, erro
 			Labels:        request.Spec.Labels,
 			Annotations:   request.Spec.Annotations,
 			HTTPProbePath: request.Spec.HTTPProbePath,
+			ModelBasePath: request.Spec.ModelBasePath,
 		},
 	}
 
@@ -168,6 +169,18 @@ func makeInference(request types.InferenceDeployment) (*v2alpha1.Inference, erro
 			buf := v2alpha1.ScalingType(*request.Spec.Scaling.Type)
 			is.Spec.Scaling.Type = &buf
 		}
+	}
+
+	if request.Spec.Models != nil {
+		var models []v2alpha1.ModelConfig
+		for _, modelConfig := range request.Spec.Models {
+			models = append(models, v2alpha1.ModelConfig{
+				Name:    modelConfig.Name,
+				Image:   modelConfig.Image,
+				Command: modelConfig.Command,
+			})
+		}
+		is.Spec.Models = models
 	}
 
 	rr, err := createResources(request)

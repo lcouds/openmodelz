@@ -48,6 +48,12 @@ type InferenceDeploymentSpec struct {
 
 	// Resources are the compute resource requirements.
 	Resources *ResourceRequirements `json:"resources,omitempty"`
+
+	// ModelBasePath The model base path
+	ModelBasePath string `json:"modelBasePath,omitempty"`
+
+	// Models The model used for inference
+	Models []ModelConfig `json:"models,omitempty"`
 }
 
 // Framework is the inference framework. It is only used to set the default port
@@ -126,4 +132,13 @@ type ImageCache struct {
 	Image          string `json:"image"`
 	ForceFullCache bool   `json:"force_full_cache"`
 	NodeSelector   string `json:"node_selector"`
+}
+
+type ModelConfig struct {
+	// Name The model name
+	Name string `json:"name"`
+	// Image The model image
+	Image string `json:"image"`
+	// Command to run when starting the container
+	Command []string `json:"command"`
 }

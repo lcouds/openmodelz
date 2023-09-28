@@ -147,6 +147,30 @@ spec:
                   type: array
                   items:
                     type: string
+                modelBasePath:
+                  description: The model base path
+                  type: string
+                models:
+                  description: The model used for inference
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - image
+                      - command
+                    properties:
+                      name:
+                        description: The model name.
+                        type: string
+                      image:
+                        description: The model image.
+                        type: string
+                      command:
+                        description: Command to run when starting the container.
+                        type: array
+                        items:
+                          type: string
       served: true
       storage: true
       subresources: {}

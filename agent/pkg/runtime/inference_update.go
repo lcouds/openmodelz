@@ -85,6 +85,20 @@ func updateInference(
 		}
 		expected.Spec.Resources = &rr
 	}
+	if len(request.Spec.ModelBasePath) != 0 {
+		expected.Spec.ModelBasePath = request.Spec.ModelBasePath
+	}
+	if request.Spec.Models != nil {
+		var models []v2alpha1.ModelConfig
+		for _, modelConfig := range request.Spec.Models {
+			models = append(models, v2alpha1.ModelConfig{
+				Name:    modelConfig.Name,
+				Image:   modelConfig.Image,
+				Command: modelConfig.Command,
+			})
+		}
+		expected.Spec.Models = models
+	}
 
 	if _, err := inferenceClient.TensorchordV2alpha1().
 		Inferences(functionNamespace).Update(
