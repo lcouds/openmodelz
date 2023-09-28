@@ -118,6 +118,7 @@ func newDeployment(
 								{ContainerPort: int32(port), Protocol: corev1.ProtocolTCP},
 							},
 							Command:         command,
+							Args:            inference.Spec.Args,
 							ImagePullPolicy: corev1.PullPolicy(factory.Factory.Config.ImagePullPolicy),
 							Env:             envVars,
 							SecurityContext: &corev1.SecurityContext{

@@ -147,6 +147,7 @@ func makeInference(request types.InferenceDeployment) (*v2alpha1.Inference, erro
 			Framework:     v2alpha1.Framework(request.Spec.Framework),
 			Port:          request.Spec.Port,
 			Command:       request.Spec.Command,
+			Args:          request.Spec.Args,
 			EnvVars:       request.Spec.EnvVars,
 			Secrets:       request.Spec.Secrets,
 			Constraints:   request.Spec.Constraints,

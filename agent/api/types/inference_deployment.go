@@ -31,6 +31,9 @@ type InferenceDeploymentSpec struct {
 	// Command to run when starting the
 	Command *string `json:"command,omitempty"`
 
+	// Arguments to the entrypoint.
+	Args []string `json:"args,omitempty"`
+
 	// EnvVars can be provided to set environment variables for the inference runtime.
 	EnvVars map[string]string `json:"envVars,omitempty"`
 

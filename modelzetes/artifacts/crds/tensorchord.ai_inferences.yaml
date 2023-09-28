@@ -49,6 +49,11 @@ spec:
                 command:
                   description: Command to run when starting the
                   type: string
+                args:
+                  description: Arguments to the entrypoint.
+                  type: array
+                  items:
+                    type: string
                 constraints:
                   description: Constraints are specific to the operator.
                   type: array
