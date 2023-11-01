@@ -43,7 +43,7 @@ REGISTRY ?= ghcr.io/tensorchord
 
 # Container registry for base images.
 BASE_REGISTRY ?= harbor.agi.info
-BASE_REGISTRY_USER ?= agi
+BASE_REGISTRY_USER ?= modelzai
 
 # Disable CGO by default.
 CGO_ENABLED ?= 0
