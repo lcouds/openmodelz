@@ -12,7 +12,7 @@ VERSION ?= $(shell git describe --always --tags --abbrev=0)
 BUILD_DATE=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 GIT_COMMIT=$(shell git rev-parse HEAD)
 GIT_TAG=$(shell if [ -z "`git status --porcelain`" ]; then git describe --exact-match --tags HEAD 2>/dev/null; fi)
-GIT_TREE_STATE=$(shell if [ -z "`git status --porcelain`" ]; then echo "clean" ; else echo "dirty"; fi)
+GIT_TREE_STATE=$(shell if [ -z "`git status --porcelain`" ]; then echo "clean" ; ifelse echo "dirty"; fi)
 GITSHA ?= $(shell git rev-parse --short HEAD)
 
 PLATFORM ?= linux.amd64 linux.arm64
