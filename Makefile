@@ -23,10 +23,10 @@ EMPTY:=
 SPACE:= $(EMPTY) $(EMPTY)
 
 AGENT_GO_LDFLAGS += -s -w \
-		-X $(ROOT)/autoscaler/pkg/version.version=$(VERSION) \
-		-X $(ROOT)/autoscaler/pkg/version.gitCommit=$(GIT_COMMIT) \
-		-X $(ROOT)/autoscaler/pkg/version.gitTreeState=$(GIT_TREE_STATE) \
-		-X $(ROOT)/autoscaler/pkg/version.buildDate=$(BUILD_DATE)
+		-X $(ROOT)/agent/pkg/version.version=$(VERSION) \
+		-X $(ROOT)/agent/pkg/version.gitCommit=$(GIT_COMMIT) \
+		-X $(ROOT)/agent/pkg/version.gitTreeState=$(GIT_TREE_STATE) \
+		-X $(ROOT)/agent/pkg/version.buildDate=$(BUILD_DATE)
 
 AUTOSCALER_GO_LDFLAGS += -s -w \
 		-X $(ROOT)/autoscaler/pkg/version.version=$(VERSION) \
