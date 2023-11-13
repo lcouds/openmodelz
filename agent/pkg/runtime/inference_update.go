@@ -63,6 +63,9 @@ func updateInference(
 			*expected.Spec.Scaling.Type = v2alpha1.ScalingType(*request.Spec.Scaling.Type)
 		}
 	}
+	if request.Spec.Args != nil {
+		expected.Spec.Args = request.Spec.Args
+	}
 	if request.Spec.EnvVars != nil {
 		expected.Spec.EnvVars = request.Spec.EnvVars
 	}
