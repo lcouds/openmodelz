@@ -71,10 +71,14 @@ func (f *FunctionFactory) MakeHuggingfacePullThroughCacheEnvVar() *corev1.EnvVar
 
 func (f *FunctionFactory) MakeProbes(function *v2alpha1.Inference, port int) (
 	*k8s.FunctionProbes, error) {
+	if (function.Spec.HTTPProbePath == nil) || (*function.Spec.HTTPProbePath == "") {
+		return nil, nil
+	}
+
 	// For old version inference without HTTPProbePath
 	httpProbePath := consts.DefaultHTTPProbePath
 	if (function.Spec.HTTPProbePath != nil) && (*function.Spec.HTTPProbePath != "") {
-		return nil, nil
+		httpProbePath = *function.Spec.HTTPProbePath
 	}
 
 	return f.Factory.MakeProbes(port, httpProbePath)
