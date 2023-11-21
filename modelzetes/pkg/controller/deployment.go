@@ -104,8 +104,7 @@ func newDeployment(
 			RevisionHistoryLimit: Ptr(int32(5)),
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
-					Labels:      labels,
-					Annotations: annotations,
+					Labels: labels,
 				},
 				Spec: corev1.PodSpec{
 					NodeSelector:   nodeSelector,
