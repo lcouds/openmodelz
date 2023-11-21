@@ -340,6 +340,7 @@ func (s *Scaler) GetLoadMetrics() {
 	if err != nil {
 		// log the error but continue, the mixIn will correctly handle the empty results.
 		logrus.Infof("Error querying Prometheus: %s\n", err.Error())
+		return
 	}
 
 	currentSumResults, err := s.PromQuery.Fetch(
@@ -347,6 +348,7 @@ func (s *Scaler) GetLoadMetrics() {
 	if err != nil {
 		// log the error but continue, the mixIn will correctly handle the empty results.
 		logrus.Infof("Error querying Prometheus: %s\n", err.Error())
+		return
 	}
 
 	for _, result := range results.Data.Result {
