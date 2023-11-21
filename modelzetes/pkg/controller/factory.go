@@ -74,7 +74,7 @@ func (f *FunctionFactory) MakeProbes(function *v2alpha1.Inference, port int) (
 	// For old version inference without HTTPProbePath
 	httpProbePath := consts.DefaultHTTPProbePath
 	if (function.Spec.HTTPProbePath != nil) && (*function.Spec.HTTPProbePath != "") {
-		httpProbePath = *function.Spec.HTTPProbePath
+		return nil, nil
 	}
 
 	return f.Factory.MakeProbes(port, httpProbePath)
