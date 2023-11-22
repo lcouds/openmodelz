@@ -68,8 +68,9 @@ type BuildConfig struct {
 }
 
 type InferenceConfig struct {
-	LogTimeout time.Duration `json:"log_timeout,omitempty"`
-	CacheTTL   time.Duration `json:"cache_ttl,omitempty"`
+	LogTimeout             time.Duration `json:"log_timeout,omitempty"`
+	CacheTTL               time.Duration `json:"cache_ttl,omitempty"`
+	NonInferenceUrlSuffies []string      `json:"non_inference_url_suffies,omitempty"`
 }
 
 type IngressConfig struct {

@@ -40,8 +40,9 @@ const (
 	flagIngressTLSEnabled    = "ingress-tls-enabled"
 
 	// inference
-	flagInferenceLogTimeout = "inference-log-timeout"
-	flagInferenceCacheTTL   = "inference-cache-ttl"
+	flagInferenceLogTimeout    = "inference-log-timeout"
+	flagInferenceCacheTTL      = "inference-cache-ttl"
+	flagNonInferenceUrlSuffies = "non-inference-url-suffies"
 
 	// build
 	flagBuildEnabled         = "build-enabled"
@@ -209,6 +210,11 @@ func New() App {
 			Value:   time.Millisecond * 500,
 			EnvVars: []string{"MODELZ_AGENT_INFERENCE_CACHE_TTL"},
 			Aliases: []string{"ict"},
+		},
+		&cli.StringFlag{
+			Name:  flagNonInferenceUrlSuffies,
+			Usage: "Non inference urls. ",
+			Value: ".js,.css,.ico,.woff2,.png,.svg,</svg>,.map,/info,/",
 		},
 		&cli.BoolFlag{
 			Name:   flagBuildEnabled,

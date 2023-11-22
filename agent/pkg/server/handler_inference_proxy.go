@@ -12,9 +12,23 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/sirupsen/logrus"
 
 	"github.com/tensorchord/openmodelz/agent/errdefs"
 )
+
+func (s *Server) isInferenceRequest(request *http.Request) bool {
+	if len(s.config.Inference.NonInferenceUrlSuffies) != 0 {
+		for _, nonInferenceUrlSuffix := range s.config.Inference.NonInferenceUrlSuffies {
+			if strings.HasSuffix(request.RequestURI, nonInferenceUrlSuffix) {
+				logrus.Infof("Current request not inference, url: %s", request.RequestURI)
+				return false
+			}
+		}
+	}
+	logrus.Infof("Current request is inference, url: %s", request.RequestURI)
+	return true
+}
 
 // @Summary     Inference.
 // @Description Inference proxy.
@@ -45,18 +59,22 @@ func (s *Server) handleInferenceProxy(c *gin.Context) error {
 	}
 
 	// Update metrics.
-	s.metricsOptions.GatewayInferenceInvocationStarted.
-		WithLabelValues(namespacedName).Inc()
-	s.metricsOptions.GatewayInferenceInvocationInflight.
-		WithLabelValues(namespacedName).Inc()
+	if s.isInferenceRequest(c.Request) {
+		s.metricsOptions.GatewayInferenceInvocationStarted.
+			WithLabelValues(namespacedName).Inc()
+		s.metricsOptions.GatewayInferenceInvocationInflight.
+			WithLabelValues(namespacedName).Inc()
+	}
 	start := time.Now()
 	label := prometheus.Labels{"inference_name": namespacedName, "code": strconv.Itoa(http.StatusProcessing)}
 	defer func() {
-		s.metricsOptions.GatewayInferenceInvocationInflight.
-			WithLabelValues(namespacedName).Dec()
-		s.metricsOptions.GatewayInferencesHistogram.With(label).
-			Observe(time.Since(start).Seconds())
-		s.metricsOptions.GatewayInferenceInvocation.With(label).Inc()
+		if s.isInferenceRequest(c.Request) {
+			s.metricsOptions.GatewayInferenceInvocationInflight.
+				WithLabelValues(namespacedName).Dec()
+			s.metricsOptions.GatewayInferenceInvocation.With(label).Inc()
+			s.metricsOptions.GatewayInferencesHistogram.With(label).
+				Observe(time.Since(start).Seconds())
+		}
 	}()
 
 	res := s.scaler.Scale(c.Request.Context(), namespace, name)

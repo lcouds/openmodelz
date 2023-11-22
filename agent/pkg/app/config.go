@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/urfave/cli/v2"
+	"strings"
 
 	"github.com/tensorchord/openmodelz/agent/pkg/config"
 )
@@ -32,6 +33,10 @@ func configFromCLI(c *cli.Context) config.Config {
 	// inference
 	cfg.Inference.LogTimeout = c.Duration(flagInferenceLogTimeout)
 	cfg.Inference.CacheTTL = c.Duration(flagInferenceCacheTTL)
+	nonInferenceUrlSuffiesStr := c.String(flagNonInferenceUrlSuffies)
+	if len(nonInferenceUrlSuffiesStr) != 0 {
+		cfg.Inference.NonInferenceUrlSuffies = strings.Split(nonInferenceUrlSuffiesStr, ",")
+	}
 
 	// build
 	cfg.Build.BuildEnabled = c.Bool(flagBuildEnabled)
