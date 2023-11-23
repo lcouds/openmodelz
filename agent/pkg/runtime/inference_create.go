@@ -203,9 +203,12 @@ func makeIngress(request types.InferenceDeployment, cfg config.IngressConfig) (*
 		return nil, errdefs.InvalidParameter(fmt.Errorf("labels is required"))
 	}
 
+	// Avoiding Ingress name conflicts
+	name := fmt.Sprintf("%s.%s", request.Spec.Name, request.Spec.Namespace)
+
 	ingress := &ingressv1.InferenceIngress{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      request.Spec.Name,
+			Name:      name,
 			Namespace: cfg.Namespace,
 			Labels:    labels,
 		},
@@ -214,7 +217,7 @@ func makeIngress(request types.InferenceDeployment, cfg config.IngressConfig) (*
 			Framework:     string(request.Spec.Framework),
 			IngressType:   "nginx",
 			BypassGateway: false,
-			Function:      request.Spec.Name,
+			Function:      name,
 			TLS: &ingressv1.InferenceIngressTLS{
 				Enabled: cfg.TLSEnabled,
 			},

@@ -255,6 +255,7 @@ func MakeAnnotations(fni *faasv1.InferenceIngress, host string) map[string]strin
 	annotations := make(map[string]string)
 
 	annotations["ai.tensorchord.spec"] = string(specJSON)
+	inferenceName := fni.Labels[consts.LabelInferenceName]
 	inferenceNamespace := fni.Labels[consts.LabelInferenceNamespace]
 
 	if !fni.Spec.BypassGateway {
@@ -267,7 +268,7 @@ func MakeAnnotations(fni *faasv1.InferenceIngress, host string) map[string]strin
 					"/" + fni.Spec.Function + "/$1"
 				annotations["nginx.ingress.kubernetes.io/use-regex"] = "true"
 			default:
-				annotations["nginx.ingress.kubernetes.io/rewrite-target"] = "/inference/" + fni.Name + "." + inferenceNamespace + "/$1"
+				annotations["nginx.ingress.kubernetes.io/rewrite-target"] = "/inference/" + inferenceName + "." + inferenceNamespace + "/$1"
 				annotations["nginx.ingress.kubernetes.io/ssl-redirect"] = "false"
 				annotations["nginx.ingress.kubernetes.io/use-regex"] = "true"
 			}

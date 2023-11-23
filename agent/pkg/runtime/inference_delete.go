@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"context"
+	"fmt"
 
 	ingressclientset "github.com/tensorchord/openmodelz/ingress-operator/pkg/client/clientset/versioned"
 	inferenceclientset "github.com/tensorchord/openmodelz/modelzetes/pkg/client/clientset/versioned"
@@ -64,7 +65,8 @@ func deleteInference(ctx context.Context,
 	}
 
 	if ingressEnabled && ingressClient != nil {
-		if err := ingressClient.TensorchordV1().InferenceIngresses(baseNamespace).Delete(ctx, inferenceName, *opts); err != nil {
+		name := fmt.Sprintf("%s.%s", inferenceName, namespace)
+		if err := ingressClient.TensorchordV1().InferenceIngresses(baseNamespace).Delete(ctx, name, *opts); err != nil {
 			if k8serrors.IsNotFound(err) {
 				return errdefs.NotFound(err)
 			} else {
