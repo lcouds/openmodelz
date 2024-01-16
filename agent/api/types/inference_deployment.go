@@ -1,5 +1,7 @@
 package types
 
+import corev1 "k8s.io/api/core/v1"
+
 // InferenceDeployment represents a request to create or update a Model.
 type InferenceDeployment struct {
 	Spec   InferenceDeploymentSpec   `json:"spec"`
@@ -57,6 +59,9 @@ type InferenceDeploymentSpec struct {
 
 	// Models The model used for inference
 	Models []ModelConfig `json:"models,omitempty"`
+
+	// Volumes The volumes used for inference
+	Volumes []VolumeConfig `json:"volumes,omitempty"`
 }
 
 // Framework is the inference framework. It is only used to set the default port
@@ -144,4 +149,11 @@ type ModelConfig struct {
 	Image string `json:"image"`
 	// Command to run when starting the container
 	Command []string `json:"command"`
+}
+
+type VolumeConfig struct {
+	// Name The volume name
+	Name      string                  `json:"name"`
+	MountPath string                  `json:"mountPath"`
+	NFS       *corev1.NFSVolumeSource `json:"nfs"`
 }

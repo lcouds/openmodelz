@@ -176,6 +176,39 @@ spec:
                         type: array
                         items:
                           type: string
+                volumes:
+                  description: The volumes used for inference
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - name
+                      - mountPath
+                      - nfs
+                    properties:
+                      name:
+                        description: The volume name.
+                        type: string
+                      mountPath:
+                        description: The volume mount path.
+                        type: string
+                      nfs:
+                        description: The nfs config.
+                        type: object
+                        required:
+                          - server
+                          - path
+                        properties:
+                          server:
+                            description: The nfs path.
+                            type: string
+                          path:
+                            description: The nfs server.
+                            type: string
+                          readOnly:
+                            description: The nfs readOnly.
+                            type: boolean
+
       served: true
       storage: true
       subresources: {}

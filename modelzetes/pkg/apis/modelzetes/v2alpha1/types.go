@@ -1,6 +1,7 @@
 package v2alpha1
 
 import (
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
@@ -67,6 +68,9 @@ type InferenceSpec struct {
 
 	// Models The model used for inference
 	Models []ModelConfig `json:"models,omitempty"`
+
+	// Volumes The volumes used for inference
+	Volumes []VolumeConfig `json:"volumes,omitempty"`
 }
 
 // Framework is the inference framework. It is only used to set the default port
@@ -124,4 +128,11 @@ type ModelConfig struct {
 	Image string `json:"image"`
 	// Command to run when starting the container
 	Command []string `json:"command"`
+}
+
+type VolumeConfig struct {
+	// Name The volume name
+	Name      string                  `json:"name"`
+	MountPath string                  `json:"mountPath"`
+	NFS       *corev1.NFSVolumeSource `json:"nfs"`
 }

@@ -5,8 +5,9 @@ import (
 	"fmt"
 
 	ingressv1 "github.com/tensorchord/openmodelz/ingress-operator/pkg/apis/modelzetes/v1"
-	v2alpha1 "github.com/tensorchord/openmodelz/modelzetes/pkg/apis/modelzetes/v2alpha1"
+	"github.com/tensorchord/openmodelz/modelzetes/pkg/apis/modelzetes/v2alpha1"
 	"github.com/tensorchord/openmodelz/modelzetes/pkg/consts"
+	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	k8serrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -182,6 +183,22 @@ func makeInference(request types.InferenceDeployment) (*v2alpha1.Inference, erro
 			})
 		}
 		is.Spec.Models = models
+	}
+
+	if request.Spec.Volumes != nil {
+		var volumes []v2alpha1.VolumeConfig
+		for _, volumeConfig := range request.Spec.Volumes {
+			volumes = append(volumes, v2alpha1.VolumeConfig{
+				Name:      volumeConfig.Name,
+				MountPath: volumeConfig.MountPath,
+				NFS: &corev1.NFSVolumeSource{
+					Server:   volumeConfig.NFS.Server,
+					Path:     volumeConfig.NFS.Path,
+					ReadOnly: volumeConfig.NFS.ReadOnly,
+				},
+			})
+		}
+		is.Spec.Volumes = volumes
 	}
 
 	rr, err := createResources(request)

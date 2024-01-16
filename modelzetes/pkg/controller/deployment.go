@@ -165,6 +165,26 @@ func newDeployment(
 		deploymentSpec.Spec.Template.Spec.Volumes = volumes
 	}
 
+	if inference.Spec.Volumes != nil {
+		volumes := deploymentSpec.Spec.Template.Spec.Volumes
+		volumeMounts := deploymentSpec.Spec.Template.Spec.Containers[0].VolumeMounts
+		for _, volume := range inference.Spec.Volumes {
+			volumes = append(volumes, corev1.Volume{
+				Name: volume.Name,
+				VolumeSource: corev1.VolumeSource{
+					NFS: volume.NFS,
+				},
+			})
+
+			volumeMounts = append(volumeMounts, corev1.VolumeMount{
+				Name:      volume.Name,
+				MountPath: volume.MountPath,
+			})
+		}
+		deploymentSpec.Spec.Template.Spec.Volumes = volumes
+		deploymentSpec.Spec.Template.Spec.Containers[0].VolumeMounts = volumeMounts
+	}
+
 	if probes != nil {
 		if probes.Liveness != nil {
 			deploymentSpec.Spec.Template.Spec.Containers[0].LivenessProbe = probes.Liveness
