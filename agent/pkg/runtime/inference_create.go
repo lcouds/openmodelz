@@ -191,6 +191,7 @@ func makeInference(request types.InferenceDeployment) (*v2alpha1.Inference, erro
 			volumes = append(volumes, v2alpha1.VolumeConfig{
 				Name:      volumeConfig.Name,
 				MountPath: volumeConfig.MountPath,
+				SubPath:   volumeConfig.SubPath,
 				NFS: &corev1.NFSVolumeSource{
 					Server:   volumeConfig.NFS.Server,
 					Path:     volumeConfig.NFS.Path,

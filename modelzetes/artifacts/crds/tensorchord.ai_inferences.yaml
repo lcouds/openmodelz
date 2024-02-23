@@ -192,6 +192,9 @@ spec:
                       mountPath:
                         description: The volume mount path.
                         type: string
+                      subPath:
+                        description: The volume sub path.
+                        type: string
                       nfs:
                         description: The nfs config.
                         type: object

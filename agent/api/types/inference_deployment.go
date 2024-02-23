@@ -155,5 +155,6 @@ type VolumeConfig struct {
 	// Name The volume name
 	Name      string                  `json:"name"`
 	MountPath string                  `json:"mountPath"`
+	SubPath   string                  `json:"subPath"`
 	NFS       *corev1.NFSVolumeSource `json:"nfs"`
 }

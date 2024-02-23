@@ -179,6 +179,7 @@ func newDeployment(
 			volumeMounts = append(volumeMounts, corev1.VolumeMount{
 				Name:      volume.Name,
 				MountPath: volume.MountPath,
+				SubPath:   volume.SubPath,
 			})
 		}
 		deploymentSpec.Spec.Template.Spec.Volumes = volumes
